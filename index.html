@@ -358,6 +358,90 @@ label.check input{width:20px;height:20px;padding:0;accent-color:var(--red)}
   .tm .nm{font-size:16px;padding:4px 10px}
   .tm .badge{display:none}
 }
+
+/* ===== screen-size fit (phone portrait / phone landscape / laptop / TV) ===== */
+:root{--u:min(1vw,1.75vh)}
+.hero h1{font-size:clamp(52px,min(13vw,20vh),132px)}
+.hero .tagline{font-size:clamp(18px,min(3.6vw,6vh),32px)}
+/* text grows with the screen on every size, never by width alone */
+.qtext{font-size:clamp(20px,calc(var(--u)*4.2),72px)}
+.qtext.long{font-size:clamp(18px,calc(var(--u)*2.9),46px)}
+.answer{font-size:clamp(20px,calc(var(--u)*3.6),60px)}
+.qhead .cat{font-size:clamp(18px,calc(var(--u)*2.4),40px)}
+.pill{font-size:clamp(15px,calc(var(--u)*1.8),30px)}
+.tm .nm{font-size:clamp(15px,calc(var(--u)*1.9),32px)}
+.tm .pts{font-size:clamp(26px,calc(var(--u)*3.6),64px)}
+.hp{font-size:clamp(11px,calc(var(--u)*1.25),20px)}
+.ring{width:clamp(52px,calc(var(--u)*7),110px);height:clamp(52px,calc(var(--u)*7),110px);font-size:clamp(18px,calc(var(--u)*2.4),36px)}
+.qemoji{font-size:clamp(60px,calc(var(--u)*10),160px)}
+.who .btn{font-size:clamp(16px,calc(var(--u)*1.9),30px)}
+.ring span{width:78%;height:78%}
+
+/* landscape (laptop, TV, phone on its side): the whole board fits one screen, no scrolling */
+@media (orientation:landscape) and (min-width:640px){
+  #app > .view.game:has(> .board){box-sizing:border-box;height:100dvh;flex:0 0 auto;min-height:0;padding-bottom:max(8px,env(safe-area-inset-bottom,0px));display:flex;flex-direction:column}
+  .view.game > .board{flex:1;min-height:0;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:calc(var(--u)*1.2)}
+  .view.game > .board .col{min-height:0;padding:calc(var(--u)*1);gap:calc(var(--u)*1);grid-template-columns:minmax(0,1fr) minmax(0,1.5fr) minmax(0,1fr);border-radius:calc(var(--u)*2)}
+  .view.game > .board .cover{min-height:0}
+  .view.game > .board .cover .ic{font-size:calc(var(--u)*7)}
+  .view.game > .board .cover h3{font-size:clamp(12px,calc(var(--u)*2),34px);padding:calc(var(--u)*.5) 4px}
+  .view.game > .board .side{gap:calc(var(--u)*.8);min-height:0;grid-template-rows:repeat(3,minmax(0,1fr))}
+  .view.game > .board .side .tile{min-height:0;font-size:clamp(13px,calc(var(--u)*2.6),44px)}
+  .view.game > .score{margin-bottom:calc(var(--u)*1.2)}
+}
+
+/* phone on its side: short screen, so slim header and scoreboard, big question */
+@media (orientation:landscape) and (max-height:520px){
+  .view.game .topbar{margin-bottom:6px;padding:4px 12px}
+  .view.game .topbar .brand small{display:none}
+  .view.game .topbar .brand .logo{font-size:20px}
+  .view.game .topbar .btn.small{padding:4px 12px;font-size:13px}
+  .view.game > .score{gap:8px;margin-bottom:6px}
+  .view.game > .score .tm{padding:4px 8px;gap:4px;grid-template-columns:auto auto;align-items:center;justify-content:center;column-gap:10px}
+  .view.game > .score .tm .nm{grid-column:1/-1;padding:2px 10px}
+  .view.game > .score .tm .badge{display:none}
+  .view.game > .score .tm .pts{font-size:24px}
+  .view.game > .score .adj button{width:26px;height:26px;font-size:16px}
+  .view.game > .score .helpers{gap:4px}
+  .view.game > .score .hp{padding:2px 7px}
+  .view.game > .score .mid{gap:2px}
+  .view.game > .score .mid .left{font-size:11px}
+  .view.game > .score .mid .left b{font-size:16px}
+  .qwrap{gap:8px}
+  .view.game > .score .hp{gap:0;padding:2px 8px;font-size:15px}
+  .view.game > .score .hp .hpn{display:none}
+  .view.game:has(.qwrap) > .score .mid{display:none}
+  .view.game:has(.qwrap) > .score{grid-template-columns:1fr 1fr}
+  .qhead{gap:6px}
+  .qhead .cat{font-size:18px}
+  .timer{gap:8px}
+  .ring{width:44px;height:44px;font-size:16px}
+  .qcard{padding:12px 16px;gap:10px;border-radius:18px}
+  .qimg{max-height:58vh}
+  .qvideo{max-height:62vh}
+}
+
+.rotatehint{display:none;text-align:center;font-size:13px;color:var(--muted);margin:-8px 0 10px}
+/* phone held upright: 2 categories per row, points in a row above and below each cover */
+@media (orientation:portrait) and (max-width:620px){
+  .view.game > .board{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .view.game > .board .col{grid-template-columns:1fr;grid-template-rows:auto auto auto;padding:6px;gap:6px;border-radius:14px}
+  .view.game > .board .side{grid-template-rows:none;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+  .view.game > .board .side .tile{min-height:34px;font-size:15px}
+  .view.game > .board .cover{min-height:0;height:96px}
+  .view.game > .board .cover .ic{font-size:40px}
+  .view.game > .board .cover h3{font-size:13px;padding:3px 4px}
+  .view.game > .score .hp{font-size:11px;padding:3px 7px}
+  .rotatehint{display:block}
+  .view.game:has(.qwrap) > .score .mid{display:none}
+  .view.game > .score .tm{padding:8px;gap:6px}
+  .view.game > .score .hp{padding:3px 9px;font-size:15px}
+  .view.game > .score .hp .hpn{display:none}
+  .view.game > .score .helpers{flex-wrap:nowrap}
+  .qtext{font-size:22px}
+  .timer{gap:8px}
+}
+
 </style>
 
 <div id="app" dir="rtl" lang="ar"></div>
@@ -5078,7 +5162,7 @@ function scoreboard(interactive){
       <span class="adj"><button data-act="adj" data-t="${i}" data-v="-100" aria-label="ناقص 100">−</button><button data-act="adj" data-t="${i}" data-v="100" aria-label="زائد 100">+</button></span></div>
     <div class="helpers">${HELPERS.map(h=>{
       const used = t[i].help[h.k]; const on = game.cur && game.cur.active[i+":"+h.k];
-      return `<button class="hp ${on?"on":used?"used":""}" data-act="help" data-t="${i}" data-k="${h.k}" title="${esc(h.d)}" ${(used||!interactive)?"disabled":""}>${h.i} ${h.n}</button>`;
+      return `<button class="hp ${on?"on":used?"used":""}" data-act="help" data-t="${i}" data-k="${h.k}" title="${esc(h.d)}" ${(used||!interactive)?"disabled":""}>${h.i} <span class="hpn">${h.n}</span></button>`;
     }).join("")}</div></div>`;
   return `<div class="score">${team(0)}<div class="mid"><div class="left">باقي<b>${tilesLeft()}</b>سؤال</div><button class="btn small ghost" data-act="swap">بدّل الدور</button></div>${team(1)}</div>`;
 }
@@ -5087,6 +5171,7 @@ function vBoard(){
   return `<div class="view game">${topbar(`<button class="btn small ghost" data-act="askend">إنهاء اللعبة</button>`)}
   ${ui.confirmEnd?`<div class="confirm" style="margin-bottom:14px">متأكدين تبون تنهون اللعبة الحين؟ <button class="btn small primary" data-act="endnow">إيه، أنهِ</button><button class="btn small" data-act="noend">لا، كمّل</button></div>`:""}
   ${scoreboard(false)}
+  <div class="rotatehint">📱↔️ اللعب أوضح لو قلبتوا الجوال بالعرض</div>
   <div class="board">${game.cats.map(cid=>{
     const c = catById(cid) || {name:"فئة محذوفة", icon:"❔", cover:""};
     const tiles = game.board[cid];
