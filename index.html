@@ -292,7 +292,7 @@ label.check input{width:20px;height:20px;padding:0;accent-color:var(--red)}
 
 /* letters hive: white cells with black outline on a square split into gold (top/bottom) and red (sides) */
 .hexwrap{display:flex;justify-content:center;padding-block:6px;max-width:100%}
-.hexboard{--hw:clamp(44px, calc((100vw - 110px) / 6.4), 96px);--hh:calc(var(--hw) * 1.1547);--pad:calc(var(--hw) * .62);padding:var(--pad);border-radius:6px;
+.hexboard{--hw:clamp(40px, min(calc((100vw - 40px) / 6.4), calc((100dvh - 330px) / 5.9)), 96px);--hh:calc(var(--hw) * 1.1547);--pad:calc(var(--hw) * .62);padding:var(--pad);border-radius:6px;
   background:conic-gradient(from -45deg, var(--gold) 0 90deg, var(--red) 0 180deg, var(--gold) 0 270deg, var(--red) 0);box-shadow:0 12px 30px rgba(40,20,60,.18)}
 .hrow{display:flex;gap:3px}
 .hrow + .hrow{margin-top:calc(var(--hh) * -0.25 + 3px)}
@@ -442,6 +442,25 @@ label.check input{width:20px;height:20px;padding:0;accent-color:var(--red)}
   .timer{gap:8px}
 }
 
+
+/* letters game: on wide/sideways screens the scores sit on the side and the hex board fills the height */
+@media (orientation:landscape) and (min-width:640px){
+  #app > .view.game.lmode:has(> .hexwrap){box-sizing:border-box;height:100dvh;flex:0 0 auto;min-height:0;display:grid;grid-template-columns:minmax(170px,24%) minmax(0,1fr);grid-template-rows:auto auto minmax(0,1fr) auto;column-gap:16px;padding-bottom:max(8px,env(safe-area-inset-bottom,0px))}
+  .view.game.lmode > .topbar{grid-column:1/-1}
+  .view.game.lmode:has(> .hexwrap) > .score{grid-column:1;grid-row:2/5;grid-template-columns:1fr;align-self:center;margin:0}
+  .view.game.lmode > .lwin{grid-column:2;grid-row:2;margin-bottom:6px}
+  .view.game.lmode > .hexwrap{grid-column:2;grid-row:3;min-height:0;align-items:center;padding:0}
+  .view.game.lmode > .hexwrap + .row{grid-column:2;grid-row:4;margin-top:6px!important}
+  .view.game.lmode .hexboard{--hw:clamp(30px, min(calc((76vw - 150px) / 6.4), calc((100dvh - 120px) / 5.9)), 124px)}
+}
+@media (orientation:landscape) and (max-height:520px){
+  #app > .view.game.lmode:has(> .hexwrap){grid-template-columns:minmax(150px,30%) minmax(0,1fr)}
+  .view.game.lmode .hexboard{--hw:clamp(28px, calc((100dvh - 92px) / 5.9), 80px)}
+  .view.game.lmode > .hexwrap + .row{font-size:13px}
+  .view.game.lmode > .lscore .ptsrow .muted{display:none}
+  .view.game.lmode:has(.qwrap) > .lscore{grid-template-columns:1fr 1fr}
+  .view.game.lmode:has(.qwrap) > .lscore .mid{display:none}
+}
 </style>
 
 <div id="app" dir="rtl" lang="ar"></div>
