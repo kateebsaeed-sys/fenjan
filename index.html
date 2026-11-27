@@ -174,6 +174,9 @@ label{display:grid;gap:6px;font-size:14px;color:var(--muted);font-weight:500}
 .ring span{width:58px;height:58px;border-radius:50%;background:#fff;display:grid;place-items:center}
 .ring.low,.lmode .ring.low{background:conic-gradient(var(--red) calc(var(--p)*1%), var(--surface-2) 0)}
 .ring.out span{color:var(--red)}
+.bigtimer{display:flex;justify-content:center;margin:10px 0 14px}
+.bigtimer .ring{width:clamp(170px,40vmin,340px);height:clamp(170px,40vmin,340px);font-size:clamp(64px,16vmin,150px);font-weight:800}
+.bigtimer .ring span{width:86%;height:86%}
 .who{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:12px;width:100%;max-width:720px}
 .who .btn{padding:16px;font-size:18px}
 .notice{background:#eef8f1;border:1.5px dashed var(--green);color:#0f5a2f;border-radius:12px;padding:8px 14px;font-size:14px}
@@ -5323,9 +5326,11 @@ function vQuestion(){
   });
 
   let main = "";
+  const bigT = type==="charade" && /^wk-/.test(q.cat||"") && cur.phase!=="ready"; /* ولا كلمة sections: the timer sits big in the middle */
   if(type==="charade"){
     if(cur.revealed) main += mediaHTML(q, cur);
     main += `<div class="qtext">${esc(q.q || "مثّل الشخص بدون ولا كلمة")}</div>`;
+    if(bigT && !cur.revealed) main += `<div class="bigtimer"><div class="ring" id="ring"><span>${timer.left}</span></div></div>`;
     if(!cur.revealed && cur.phase==="ready"){
       const link = secretLink(q);
       main += `<div class="qrbox">
@@ -5399,7 +5404,7 @@ function vQuestion(){
   ${scoreboard(!cur.revealed)}
   <div class="qwrap">
     <div class="qhead"><div class="cat"><span>${esc(c.icon)}</span>${esc(c.name)} <span class="pill">${curPts(t)!==t.pts ? `<s class="was">${t.pts}</s>${curPts(t)}` : t.pts}</span></div>
-      <div class="timer"><span class="muted">دور ${esc(turnName)}</span><div class="ring" id="ring"><span>${timer.left}</span></div>
+      <div class="timer"><span class="muted">دور ${esc(turnName)}</span>${bigT && !cur.revealed ? "" : `<div class="ring" id="ring"><span>${timer.left}</span></div>`}
         <button class="btn small" id="tbtn" data-act="timer">إيقاف مؤقت</button>${cur.phase==="ask"?`<button class="btn small ghost" data-act="retime">من جديد</button>`:""}</div></div>
     <div class="qcard">
       ${main}
